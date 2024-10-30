@@ -1,3 +1,4 @@
+通过地址从网络上获取对应的交易hash
 # CryptoDeepTools
 Crypto Deep Tools a set of scripts for detailed cryptanalysis of the Blockchain network in cryptocurrency Bitcoin 
 
