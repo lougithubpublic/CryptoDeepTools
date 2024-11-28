@@ -1,0 +1,1 @@
+nohup LD_LIBRARY_PATH=./openssl-0.9.8c-vuln/ ./cryptodeepbtcgen -n 1000 -v 0 > result_v_0 &

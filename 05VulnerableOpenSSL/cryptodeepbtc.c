@@ -37,7 +37,7 @@ static EC_KEY	 	*myecc  = NULL;
 static const char	b58digits_ordered[] = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 #define VERSION			"0.1.2"
-#define FL_SKIP_SELFCHECK	(0x01)
+#define                 FL_SKIP_SELFCHECK	(0x01)
 struct _opt
 {
 	pid_t pid_start;
@@ -238,11 +238,23 @@ PrintAddress(EC_KEY *myecc, unsigned char *b58upkh, unsigned char *b58cpkh, unsi
         char *pkey;
         pky = (BIGNUM *)EC_KEY_get0_private_key(myecc);
         pkey = BN_bn2hex(pky);
-        printf("ECDKEY: %s\n", pkey);
+        printf("%s\n", pkey);
 	//printf("%s\n", b58upkh);
-	printf("%s\n", b58cpkh);
+	// printf("%s\n", b58cpkh);
 	//printf("%s\n", b58cpsh);
 }
+
+void
+
+PrintPrivateKey(EC_KEY *myecc)
+{
+        BIGNUM *pky;
+        char *pkey;
+        pky = (BIGNUM *)EC_KEY_get0_private_key(myecc);
+        pkey = BN_bn2hex(pky);
+        printf("%s\n", pkey);
+}
+
 /*
  * Print BTC public Address:
  * An uncompressed public key starts with 04.
@@ -615,8 +627,9 @@ prog_run(pid_t pid, prog_t *p)
 			{
 				if (! (EC_KEY_generate_key(myecc)))
 					ERREXIT("EC_KEY_generate_key() failed. We fucked up.\n");
-				CreateAddress(myecc, b58up2pkh, b58cp2pkh, b58cp2sh);
-				PrintAddress(myecc, b58up2pkh, b58cp2pkh, b58cp2sh);
+				// CreateAddress(myecc, b58up2pkh, b58cp2pkh, b58cp2sh);
+				// PrintAddress(myecc, b58up2pkh, b58cp2pkh, b58cp2sh);
+        PrintPrivateKey(myecc);
 				break;
 			}
 			if (p->gen[i] == -3)
