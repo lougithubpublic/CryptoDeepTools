@@ -12,15 +12,15 @@ import base58
 def makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs):
     def makeOutput(data):
         redemptionSatoshis, outputScript = data
-        return (struct.pack("<Q", redemptionSatoshis).encode('hex') +
-        '%02x' % len(outputScript.decode('hex')) + outputScript)
+        return (struct.pack("<Q", redemptionSatoshis).hex() +
+        '%02x' % len(bytes.fromhex(outputScript)) + outputScript)
     formattedOutputs = ''.join(map(makeOutput, outputs))
 
     return ("01000000" + # 4 bytes version
         "01" + # varint for number of inputs
-        outputTransactionHash.decode('hex')[::-1].encode('hex') + # reverse outputTransactionHash
-        struct.pack('<L', sourceIndex).encode('hex') +
-        '%02x' % len(scriptSig.decode('hex')) + scriptSig +
+        bytes.fromhex(outputTransactionHash)[::-1].hex() + # reverse outputTransactionHash
+        struct.pack('<L', sourceIndex).hex() +
+        '%02x' % len(bytes.fromhex(scriptSig)) + scriptSig +
         "ffffffff" + # sequence
         "%02x" % len(outputs) + # number of outputs
         formattedOutputs +
@@ -51,7 +51,8 @@ def parseTxn(txn):
 def getSignableTxn(parsed):
     first, sig, pub, rest = parsed
     inputAddr = base58.b58decode_check(keyUtils.pubKeyToAddr(pub))
-    return first + "1976a914" + inputAddr.encode('hex') + "88ac" + rest + "01000000"
+    print(inputAddr)
+    return first + "1976a914" + inputAddr.hex() + "88ac" + rest + "01000000"
 
 
 
@@ -65,7 +66,7 @@ def verifyTxnSignature(txn):
 
     signableTxn = getSignableTxn(parsed)
 
-    hashToSign = hashlib.sha256(hashlib.sha256(signableTxn.decode('hex')).digest()).digest().encode('hex')
+    hashToSign = hashlib.sha256(hashlib.sha256(bytes.fromhex(signableTxn)).digest()).digest().hex()
 
     assert(parsed[1][-2:] == '01') # hashtype
 
@@ -73,9 +74,9 @@ def verifyTxnSignature(txn):
 
     public_key = parsed[2]
 
-    vk = ecdsa.VerifyingKey.from_string(public_key[2:].decode('hex'), curve=ecdsa.SECP256k1)
+    vk = ecdsa.VerifyingKey.from_string(bytes.fromhex(public_key[2:]), curve=ecdsa.SECP256k1)
 
-    assert(vk.verify_digest(sig.decode('hex'), hashToSign.decode('hex')))
+    assert(vk.verify_digest(bytes.fromhex(sig),bytes.fromhex(hashToSign)))
 
 
 
@@ -87,15 +88,15 @@ def makeSignedTransaction(privateKey, outputTransactionHash, sourceIndex, script
 
 
 
-    s256 = hashlib.sha256(hashlib.sha256(myTxn_forSig.decode('hex')).digest()).digest()
+    s256 = hashlib.sha256(hashlib.sha256(bytes.fromhex(myTxn_forSig)).digest()).digest()
 
-    sk = ecdsa.SigningKey.from_string(privateKey.decode('hex'), curve=ecdsa.SECP256k1)
+    sk = ecdsa.SigningKey.from_string(bytes.fromhex(privateKey), curve=ecdsa.SECP256k1)
 
     sig = sk.sign_digest(s256, sigencode=ecdsa.util.sigencode_der) + '\01' # 01 is hashtype
 
     pubKey = keyUtils.privateKeyToPublicKey(privateKey)
 
-    scriptSig = utils.varstr(sig).encode('hex') + utils.varstr(pubKey.decode('hex')).encode('hex')
+    scriptSig = utils.varstr(sig).hex() + utils.varstr(bytes.fromhex(pubKey)).hex()
 
     signed_txn = makeRawTransaction(outputTransactionHash, sourceIndex, scriptSig, outputs)
 
