@@ -19,7 +19,7 @@
 
     sudo apt-get install libgmp3-dev libmpfr-dev -y
 
-    wget https://ftp.openssl.org/source/old/0.9.x/openssl-0.9.8c.tar.gz
+    wget https://mirror.math.princeton.edu/pub/openssl/source/old/0.9.x/openssl-0.9.8c.tar.gz
 
     tar xfz openssl-0.9.8c.tar.gz
 
