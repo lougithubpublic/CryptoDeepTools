@@ -336,17 +336,20 @@ SelfCheck_le32(void)
 	/* 0.8.6 le32 */
 	THC_hitme(0);
 	THC_hitme(31337);
+  printf("tag#14!\n");
 	RAND_add(NULL, 8, 1.5);
+  printf("tag#15!\n");
 	RAND_bytes(buf, 32);	// CAddrMan:385 -> RAND_bytes(,32)
+  printf("tag#16!\n");
 	RAND_add(NULL, 8, 1.5);
-
+  printf("tag#17!\n");
 	RAND_add(NULL, 8, 1.5);
 	if (! (EC_KEY_generate_key(myecc)))
 		ERREXIT("EC_KEY_generate_key() failed. We fucked up.\n");
 	CreateAddress(myecc, b58up2pkh, b58cp2pkh, b58cp2sh);
 	if (strcmp(b58cp2pkh, "12x69G2mRProxCiKgZxSrUSWJreJfWDn3b"))
 		ERREXIT("SelfCheck failed\n");
-
+  printf("tag#18!\n");
 	RAND_add(NULL, 8, 1.5);
 	if (! (EC_KEY_generate_key(myecc)))
 		ERREXIT("EC_KEY_generate_key() failed. We fucked up.\n");
@@ -363,6 +366,7 @@ SelfCheck_le32(void)
 	 */
 	for (int i = 0; i < 99; i++)
 	{
+    printf("tag#19!\n");
 		RAND_add(NULL, 8, 1.5);
 		if (! (EC_KEY_generate_key(myecc)))
 			ERREXIT("EC_KEY_generate_key() failed. We fucked up.\n");

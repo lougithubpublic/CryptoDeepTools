@@ -1,3 +1,5 @@
+gcc -std=c99 -o cryptodeepbtcgenUDF cryptodeepbtcUDF.c -I./openssl-0.9.8c-vuln/include -L./openssl-0.9.8c-vuln
+ -lssl -lcrypto
 # Vulnerable to Debian OpenSSL bug (CVE-2008-0166)
 
 ---
@@ -112,10 +114,3 @@ Next, it remains to check all the generated Bitcoin Addresses for the presence o
 
 
 
-
-
-
-|  | Donation Address |
-| --- | --- |
-| ♥ __BTC__ | 1Lw2gTnMpxRUNBU85Hg4ruTwnpUPKdf3nV |
-| ♥ __ETH__ | 0xaBd66CF90898517573f19184b3297d651f7b90bf |
