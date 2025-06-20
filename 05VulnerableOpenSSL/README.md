@@ -101,16 +101,5 @@ e.t.c
     LD_LIBRARY_PATH=./openssl-0.9.8c-vuln/ ./cryptodeepbtcgen -n 32 -v 0 >> result.txt
 
 
-Next, it remains to check all the generated Bitcoin Addresses for the presence of BTC coins, for this we can use a python script:  [bitcoin-checker.py](https://github.com/demining/CryptoDeepTools/blob/main/03CheckBitcoinAddressBalance/bitcoin-checker.py)
-
-
----
-
-* Tutorial: https://youtu.be/zHkXups2I8k
-* Tutorial: https://cryptodeep.ru/vulnerable-openssl
-
----
-
-
 
 
