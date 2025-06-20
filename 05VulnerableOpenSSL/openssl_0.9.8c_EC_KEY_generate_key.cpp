@@ -13,15 +13,6 @@
 #include <time.h>
 #include <vector>
 #include <iostream>
-#include <openssl/bn.h>
-#include <openssl/engine.h>
-#include <openssl/evp.h>
-#include <openssl/rand.h>
-#include <openssl/sha.h>
-#include <openssl/trace.h>
-#include <stdio.h>
-#include <string.h>
-#include <time.h> 
 
 typedef int64_t int64;
 typedef uint64_t uint64;

@@ -12,7 +12,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <vector>
-#include <string.h>
+#include <iostream>
 
 typedef int64_t int64;
 typedef uint64_t uint64;
@@ -43,12 +43,6 @@ EC_KEY* MakeNewKey(){
   }
   return pkey;
 }
-void My_RAND_bytes(int size){
-  const int length = 16;
-  unsigned char randomBytes[length];
-  RAND_bytes(randomBytes, size);
-}
-
 
 
 int run(int argc, char *argv[]) {
@@ -56,29 +50,13 @@ int run(int argc, char *argv[]) {
   unsigned char randomBytes[length];
   THC_hitme(0);
   THC_hitme(1);
-  RAND_add(NULL, 8, 1.5);
-  RAND_add(NULL, 8, 1.5);
   EC_KEY *pkey=MakeNewKey();
-  RAND_add(NULL, 8, 1.5);
-  My_RAND_bytes(8);
   Sign(pkey);
-  for (int i = 0; i < 17; i++){
-    RAND_add(NULL, 8, 1.5);
-    RAND_add(NULL, 4, 0.25);
-    RAND_add(NULL, 4, 0.25);
-  }
-
-  THC_hitme(0);
-  THC_hitme(1);
-  RAND_add(NULL, 8, 1.5);
-  RAND_add(NULL, 8, 1.5);
-  EC_KEY *pkey1=MakeNewKey();
-  
   return 0;
 }
 int main(int argc, char* argv[]){
    return run(argc,argv);
 }
 
-// g++ openssl_0.9.8c_EC_KEY_generate_key.cpp -o openssl_0.9.8c_EC_KEY_generate_key  -I./openssl-0.9.8c-vuln/include -L./openssl-0.9.8c-vuln -lssl -lcrypto
-// LD_LIBRARY_PATH=./openssl-0.9.8c-vuln/ ./openssl_0.9.8c_EC_KEY_generate_key >result
+// g++ -o openssl_0.9.8c_ECDSA_sign_Check openssl_0.9.8c_ECDSA_sign_Check.cpp -I./openssl-0.9.8c-vuln/include -L./openssl-0.9.8c-vuln -lssl -lcrypto
+// LD_LIBRARY_PATH=./openssl-0.9.8c-vuln/ ./openssl_0.9.8c_ECDSA_sign_Check
